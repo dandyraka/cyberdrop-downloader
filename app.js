@@ -15,6 +15,8 @@ if (!url) {
     .then((response) => {
       const $ = cheerio.load(response.data);
       const reqArr = _.map($('.image'), (i) => i.attribs.href);
+      console.log(chalk.magentaBright($('#title').attr('title')));
+      console.log(chalk.greenBright('Starting Download..'));
       let index = 0;
       function request() {
         const filetype = reqArr[index].split('.').pop();
@@ -31,7 +33,7 @@ if (!url) {
           );
           index += 1;
           if (index >= reqArr.length) {
-            return console.log(chalk.greenBright('Download Completed'));
+            return console.log(chalk.greenBright('Download Completed!'));
           }
           return request();
         });
