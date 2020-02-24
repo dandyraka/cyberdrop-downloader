@@ -1,0 +1,33 @@
+{
+  "name": "cyberdrop-downloader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "bin": {
+    "cyberdrop": "./app.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/Fshy/cyberdrop-downloader.git"
+  },
+  "author": "Fshy <fshy@arc.moe> (https://arc.moe/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/Fshy/cyberdrop-downloader/issues"
+  },
+  "homepage": "https://gitlab.com/Fshy/cyberdrop-downloader#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "chalk": "^3.0.0",
+    "cheerio": "^1.0.0-rc.3",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}
