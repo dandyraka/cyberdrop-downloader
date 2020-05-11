@@ -15,7 +15,14 @@ if (!url) {
     .then((response) => {
       const $ = cheerio.load(response.data);
       const reqArr = _.map($('.image'), (i) => i.attribs.href);
-      console.log(chalk.magentaBright($('#title').attr('title')));
+      const illegalChars = RegExp(/[\\/:"*?<>|]/g);
+      const title = $('#title').attr('title').replace(illegalChars, '');
+      if (args[1] && args[1] === ('-d' || '--dir')) {
+        if (!fs.existsSync(title)) {
+          fs.mkdirSync(title);
+        }
+      }
+      console.log(chalk.magentaBright(title));
       console.log(chalk.greenBright('Starting Download..'));
       let index = 0;
       function request() {
@@ -28,9 +35,15 @@ if (!url) {
           responseType: 'stream',
         }).then((resp) => {
           console.log(`${chalk.cyanBright(`[${(index + 1).toString().padStart(reqArr.length.toString().length, '0')}/${reqArr.length}]`)} ${filename}.${filetype}`);
-          resp.data.pipe(
-            fs.createWriteStream(`${filename}.${filetype}`),
-          );
+          if (args[1] && args[1] === ('-d' || '--dir')) {
+            resp.data.pipe(
+              fs.createWriteStream(`${title}/${filename}.${filetype}`),
+            );
+          } else {
+            resp.data.pipe(
+              fs.createWriteStream(`${filename}.${filetype}`),
+            );
+          }
           index += 1;
           if (index >= reqArr.length) {
             return console.log(chalk.greenBright('Download Completed!'));
