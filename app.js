@@ -4,8 +4,10 @@ const fs = require('fs');
 const axios = require('axios');
 const chalk = require('chalk');
 const cheerio = require('cheerio');
+const http = require('http');
+const https = require('https');
 
-const [,, ...args] = process.argv;
+const [, , ...args] = process.argv;
 const url = args[0];
 
 if (!url) {
@@ -31,8 +33,11 @@ if (!url) {
         filename = filename.slice(0, filename.lastIndexOf('-'));
         return axios({
           method: 'GET',
-          url: reqArr[index],
+          url: reqArr[index].replace('cyberdrop.nl', 'cyberdrop.cc'),
           responseType: 'stream',
+          timeout: 60000,
+          httpAgent: new http.Agent({ keepAlive: true }),
+          httpsAgent: new https.Agent({ keepAlive: true }),
         }).then((resp) => {
           console.log(`${chalk.cyanBright(`[${(index + 1).toString().padStart(reqArr.length.toString().length, '0')}/${reqArr.length}]`)} ${filename}.${filetype}`);
           if (args[1] && args[1] === ('-d' || '--dir')) {
